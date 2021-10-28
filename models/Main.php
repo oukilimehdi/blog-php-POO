@@ -1,6 +1,6 @@
 <?php
 
-namespace Models;
+require 'Database.php';
 
 abstract class Main {
 
@@ -8,7 +8,7 @@ abstract class Main {
     protected $table;
 
     public function __construct(){
-        $this->pdo = \Database::getPdo();
+        $this->pdo = Database::getPdo();
     }
 
     /**
@@ -17,10 +17,9 @@ abstract class Main {
     public function find(int $id){
 
         $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = :id");
-        // On exécute la requête en précisant le paramètre :article_id 
+        
         $query->execute(['id' => $id]);
 
-        // On fouille le résultat pour en extraire les données réelles de l'article
         $item = $query->fetch();
 
         return $item;
